@@ -45,7 +45,7 @@ class Modal {
 				this.statusBarItem.command = "modal.enterInsertMode";
 				this.statusBarItem.tooltip = "Modal is currently in Normal mode";
 				break;
-			
+
 			case Mode.Insert:
 				this.statusBarItem.text = "Insert";
 				this.statusBarItem.command = "modal.enterNormalMode";
@@ -92,7 +92,8 @@ class Modal {
 			vscode.commands.registerCommand("modal.enterNormalMode", this.enterNormalMode, this),
 			vscode.commands.registerCommand("modal.enterInsertMode", this.enterInsertMode, this),
 			vscode.commands.registerCommand("type", this.processTextInput, this),
-			vscode.window.onDidChangeActiveTextEditor(textEditor => { this.updateAll(textEditor); }, this)
+			vscode.window.onDidChangeActiveTextEditor(textEditor => { this.updateAll(textEditor); }, this),
+			vscode.window.onDidChangeVisibleTextEditors(textEditors => { this.updateAll(); }, this)
 		);
 	}
 }
