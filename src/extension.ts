@@ -92,8 +92,12 @@ class Modal {
 			vscode.commands.registerCommand("modal.enterNormalMode", this.enterNormalMode, this),
 			vscode.commands.registerCommand("modal.enterInsertMode", this.enterInsertMode, this),
 			vscode.commands.registerCommand("type", this.processTextInput, this),
-			vscode.window.onDidChangeActiveTextEditor(textEditor => { this.updateAll(textEditor); }, this),
-			vscode.window.onDidChangeVisibleTextEditors(textEditors => { this.updateAll(); }, this)
+			vscode.window.onDidChangeActiveTextEditor(textEditor => {
+				this.currentMode = Mode.Normal;
+			}, this),
+			vscode.window.onDidChangeVisibleTextEditors(textEditors => {
+				this.updateAll();
+			}, this),
 		);
 	}
 }
