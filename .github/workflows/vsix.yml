@@ -14,10 +14,18 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install VSCE
-        run: sudo npm i -g vsce
+        run: sudo yarn global add vsce
 
       - name: Package VSIX
-        run: vsce package -o vs-code-modal.vsix
+        run: |
+          yarn install
+          vsce package --yarn -o vs-code-modal.vsix
+
+      - uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: npm-logs
+          path: /home/runner/.npm/_logs
 
       - uses: actions/upload-artifact@v1
         with:
