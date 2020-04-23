@@ -1,0 +1,25 @@
+name: VSIX
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install VSCE
+        run: sudo npm i -g vsce
+
+      - name: Package VSIX
+        run: vsce package -o vs-code-modal.vsix
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: vs-code-modal.vsix
+          path: vs-code-modal.vsix
