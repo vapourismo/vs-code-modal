@@ -22,12 +22,6 @@ jobs:
           vsce package --yarn -o vs-code-modal.vsix
 
       - uses: actions/upload-artifact@v1
-        if: failure()
-        with:
-          name: npm-logs
-          path: /home/runner/.npm/_logs
-
-      - uses: actions/upload-artifact@v1
         with:
           name: vs-code-modal.vsix
           path: vs-code-modal.vsix
