@@ -109,6 +109,11 @@ class Modal {
 		this.currentMode = Mode.Visual;
 	}
 
+	enterVisualLineMode() {
+		vscode.commands.executeCommand("expandLineSelection");
+		this.enterVisualMode();
+	}
+
 	processTextInput(args: any) {
 		if (this.currentMode === Mode.Insert) {
 			this.invokeTextInput(args);
@@ -124,6 +129,7 @@ class Modal {
 			vscode.commands.registerCommand("modal.enterNormalMode", this.enterNormalMode, this),
 			vscode.commands.registerCommand("modal.enterInsertMode", this.enterInsertMode, this),
 			vscode.commands.registerCommand("modal.enterVisualMode", this.enterVisualMode, this),
+			vscode.commands.registerCommand("modal.enterVisualLineMode", this.enterVisualLineMode, this),
 			vscode.commands.registerCommand("type", this.processTextInput, this),
 
 			vscode.window.onDidChangeActiveTextEditor(textEditor => {
