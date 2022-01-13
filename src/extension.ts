@@ -2,7 +2,8 @@ import * as vscode from "vscode";
 
 enum Mode {
 	Normal,
-	Insert
+	Insert,
+	Visual
 }
 
 class Modal {
@@ -18,15 +19,36 @@ class Modal {
 	}
 
 	private updateContexts() {
-		vscode.commands.executeCommand("setContext", "modal.inNormalMode", this.currentMode === Mode.Normal);
-		vscode.commands.executeCommand("setContext", "modal.inInsertMode", this.currentMode === Mode.Insert);
+		vscode.commands.executeCommand(
+			"setContext",
+			"modal.inNormalMode",
+			this.currentMode === Mode.Normal
+		);
+
+		vscode.commands.executeCommand(
+			"setContext",
+			"modal.inInsertMode",
+			this.currentMode === Mode.Insert
+		);
+
+		vscode.commands.executeCommand(
+			"setContext",
+			"modal.inVisualMode",
+			this.currentMode === Mode.Visual
+		);
 	}
 
 	private updateCursorStyle(textEditor?: vscode.TextEditor) {
 		let cursorStyle = vscode.TextEditorCursorStyle.Line;
 
-		if (this.currentMode === Mode.Normal) {
-			cursorStyle = vscode.TextEditorCursorStyle.Block;
+		switch (this.currentMode) {
+			case Mode.Normal:
+				cursorStyle = vscode.TextEditorCursorStyle.Block;
+				break;
+
+			case Mode.Visual:
+				cursorStyle = vscode.TextEditorCursorStyle.BlockOutline;
+				break;
 		}
 
 		if (textEditor) {
@@ -50,6 +72,12 @@ class Modal {
 				this.statusBarItem.text = "Insert";
 				this.statusBarItem.command = "modal.enterNormalMode";
 				this.statusBarItem.tooltip = "Modal is currently in Insert mode";
+				break;
+
+			case Mode.Visual:
+				this.statusBarItem.text = "Visual";
+				this.statusBarItem.command = "modal.enterNormalMode";
+				this.statusBarItem.tooltip = "Modal is currently in Visual mode";
 				break;
 		}
 	}
@@ -77,6 +105,10 @@ class Modal {
 		this.currentMode = Mode.Insert;
 	}
 
+	enterVisualMode() {
+		this.currentMode = Mode.Visual;
+	}
+
 	processTextInput(args: any) {
 		if (this.currentMode === Mode.Insert) {
 			this.invokeTextInput(args);
@@ -91,10 +123,13 @@ class Modal {
 		context.subscriptions.push(
 			vscode.commands.registerCommand("modal.enterNormalMode", this.enterNormalMode, this),
 			vscode.commands.registerCommand("modal.enterInsertMode", this.enterInsertMode, this),
+			vscode.commands.registerCommand("modal.enterVisualMode", this.enterVisualMode, this),
 			vscode.commands.registerCommand("type", this.processTextInput, this),
+
 			vscode.window.onDidChangeActiveTextEditor(textEditor => {
 				this.currentMode = Mode.Normal;
 			}, this),
+
 			vscode.window.onDidChangeVisibleTextEditors(textEditors => {
 				this.updateAll();
 			}, this),
@@ -107,4 +142,4 @@ export function activate(context: vscode.ExtensionContext) {
 	modal.register(context);
 }
 
-export function deactivate() {}
+export function deactivate() { }
