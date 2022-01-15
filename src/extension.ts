@@ -114,6 +114,16 @@ class Modal {
 		this.enterVisualMode();
 	}
 
+	clipboardCopy() {
+		vscode.commands.executeCommand("editor.action.clipboardCopyAction");
+		this.enterNormalMode();
+	}
+
+	clipboardCut() {
+		vscode.commands.executeCommand("editor.action.clipboardCutAction");
+		this.enterNormalMode();
+	}
+
 	processTextInput(args: any) {
 		if (this.currentMode === Mode.Insert) {
 			this.invokeTextInput(args);
@@ -130,6 +140,8 @@ class Modal {
 			vscode.commands.registerCommand("modal.enterInsertMode", this.enterInsertMode, this),
 			vscode.commands.registerCommand("modal.enterVisualMode", this.enterVisualMode, this),
 			vscode.commands.registerCommand("modal.enterVisualLineMode", this.enterVisualLineMode, this),
+			vscode.commands.registerCommand("modal.clipboardCopy", this.clipboardCopy, this),
+			vscode.commands.registerCommand("modal.clipboardCut", this.clipboardCut, this),
 			vscode.commands.registerCommand("type", this.processTextInput, this),
 
 			vscode.window.onDidChangeActiveTextEditor(textEditor => {
