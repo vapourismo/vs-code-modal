@@ -3,7 +3,8 @@ import * as vscode from "vscode";
 enum Mode {
 	Normal,
 	Insert,
-	Visual
+	Visual,
+	VisualLine,
 }
 
 class Modal {
@@ -111,17 +112,7 @@ class Modal {
 
 	enterVisualLineMode() {
 		vscode.commands.executeCommand("expandLineSelection");
-		this.enterVisualMode();
-	}
-
-	clipboardCopy() {
-		vscode.commands.executeCommand("editor.action.clipboardCopyAction");
-		this.enterNormalMode();
-	}
-
-	clipboardCut() {
-		vscode.commands.executeCommand("editor.action.clipboardCutAction");
-		this.enterNormalMode();
+		this.currentMode = Mode.VisualLine;
 	}
 
 	processTextInput(args: any) {
@@ -140,8 +131,6 @@ class Modal {
 			vscode.commands.registerCommand("modal.enterInsertMode", this.enterInsertMode, this),
 			vscode.commands.registerCommand("modal.enterVisualMode", this.enterVisualMode, this),
 			vscode.commands.registerCommand("modal.enterVisualLineMode", this.enterVisualLineMode, this),
-			vscode.commands.registerCommand("modal.clipboardCopy", this.clipboardCopy, this),
-			vscode.commands.registerCommand("modal.clipboardCut", this.clipboardCut, this),
 			vscode.commands.registerCommand("type", this.processTextInput, this),
 
 			vscode.window.onDidChangeActiveTextEditor(textEditor => {
