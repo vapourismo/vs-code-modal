@@ -1,10 +1,10 @@
 import * as vscode from "vscode";
 
 enum Mode {
-	Normal,
-	Insert,
-	Visual,
-	VisualLine,
+	Normal = "Normal",
+	Insert = "Insert",
+	Visual = "Visual",
+	VisualLine = "Visual Line",
 }
 
 class Modal {
@@ -37,6 +37,12 @@ class Modal {
 			"modal.inVisualMode",
 			this.currentMode === Mode.Visual
 		);
+
+		vscode.commands.executeCommand(
+			"setContext",
+			"modal.inVisualLineMode",
+			this.currentMode === Mode.VisualLine
+		);
 	}
 
 	private updateCursorStyle(textEditor?: vscode.TextEditor) {
@@ -48,6 +54,7 @@ class Modal {
 				break;
 
 			case Mode.Visual:
+			case Mode.VisualLine:
 				cursorStyle = vscode.TextEditorCursorStyle.BlockOutline;
 				break;
 		}
@@ -62,23 +69,16 @@ class Modal {
 	}
 
 	private updateStatusBarItem() {
+		this.statusBarItem.text = `${this.currentMode}`;
+		this.statusBarItem.tooltip = `Modal is currently in ${this.currentMode} mode`;
+
 		switch (this.currentMode) {
 			case Mode.Normal:
-				this.statusBarItem.text = "Normal";
 				this.statusBarItem.command = "modal.enterInsertMode";
-				this.statusBarItem.tooltip = "Modal is currently in Normal mode";
 				break;
 
-			case Mode.Insert:
-				this.statusBarItem.text = "Insert";
+			default:
 				this.statusBarItem.command = "modal.enterNormalMode";
-				this.statusBarItem.tooltip = "Modal is currently in Insert mode";
-				break;
-
-			case Mode.Visual:
-				this.statusBarItem.text = "Visual";
-				this.statusBarItem.command = "modal.enterNormalMode";
-				this.statusBarItem.tooltip = "Modal is currently in Visual mode";
 				break;
 		}
 	}
