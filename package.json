@@ -31,7 +31,8 @@
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
     "esbuild": "yarn run esbuild-base -- --sourcemap",
     "esbuild-watch": "yarn run esbuild-base -- --sourcemap --watch",
-    "test-compile": "tsc -p ./"
+    "test-compile": "tsc -p ./",
+    "package": "vsce package --yarn -o vs-code-modal.vsix"
   },
   "devDependencies": {
     "@types/glob": "^7.2.0",
