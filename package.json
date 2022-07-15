@@ -2,6 +2,11 @@
   "name": "modal",
   "publisher": "ole",
   "displayName": "Modal",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vapourismo/vs-code-modal.git"
+  },
   "description": "",
   "version": "0.0.1",
   "engines": {
@@ -11,7 +16,7 @@
     "Other"
   ],
   "activationEvents": [
-    "*"
+    "onStartupFinished"
   ],
   "main": "./out/extension.js",
   "contributes": {
