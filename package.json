@@ -28,6 +28,96 @@
       {
         "command": "modal.enterInsertMode",
         "title": "Modal: Enter Insert mode"
+      },
+      {
+        "command": "modal.enterVisualMode",
+        "title": "Modal: Enter Visual mode"
+      },
+      {
+        "command": "modal.enterVisualLineMode",
+        "title": "Modal: Enter Visual Line mode"
+      }
+    ],
+    "keybindings": [
+      {
+        "key": "escape",
+        "command": "modal.enterNormalMode",
+        "when": "editorTextFocus && !modal.inNormalMode"
+      },
+      {
+        "key": "i",
+        "command": "modal.enterInsertMode",
+        "when": "editorTextFocus && !modal.inInsertMode"
+      },
+      {
+        "key": "v",
+        "command": "modal.enterVisualMode",
+        "when": "editorTextFocus && !modal.inInsertMode"
+      },
+      {
+        "key": "shift+V",
+        "command": "modal.enterVisualLineMode",
+        "when": "editorTextFocus && !modal.inInsertMode && !modal.inVisualLineMode"
+      },
+      {
+        "key": "h",
+        "command": "cursorLeft",
+        "when": "editorTextFocus && modal.inNormalMode"
+      },
+      {
+        "key": "l",
+        "command": "cursorRight",
+        "when": "editorTextFocus && modal.inNormalMode"
+      },
+      {
+        "key": "k",
+        "command": "cursorUp",
+        "when": "editorTextFocus && modal.inNormalMode"
+      },
+      {
+        "key": "j",
+        "command": "cursorDown",
+        "when": "editorTextFocus && modal.inNormalMode"
+      },
+      {
+        "key": "h",
+        "command": "cursorLeftSelect",
+        "when": "editorTextFocus && modal.inVisualMode"
+      },
+      {
+        "key": "l",
+        "command": "cursorRightSelect",
+        "when": "editorTextFocus && modal.inVisualMode"
+      },
+      {
+        "key": "k",
+        "command": "cursorUpSelect",
+        "when": "editorTextFocus && modal.inVisualMode"
+      },
+      {
+        "key": "j",
+        "command": "cursorDownSelect",
+        "when": "editorTextFocus && modal.inVisualMode"
+      },
+      {
+        "key": "k",
+        "command": "cursorMove",
+        "args": {
+          "to": "up",
+          "by": "line",
+          "select": true
+        },
+        "when": "editorTextFocus && modal.inVisualLineMode"
+      },
+      {
+        "key": "j",
+        "command": "cursorMove",
+        "args": {
+          "to": "down",
+          "by": "line",
+          "select": true
+        },
+        "when": "editorTextFocus && modal.inVisualLineMode"
       }
     ]
   },
